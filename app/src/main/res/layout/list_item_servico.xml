@@ -25,4 +25,13 @@
         app:layout_constraintBottom_toBottomOf="@id/icone_servico"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <TextView
+        android:id="@+id/descricao_servico"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/titulo_servico"
+        app:layout_constraintTop_toBottomOf="@id/titulo_servico"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

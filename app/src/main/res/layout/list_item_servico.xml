@@ -52,22 +52,10 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_menu_send"
+        android:src="@android:drawable/ic_input_add"
         android:contentDescription="aceitar"
-        app:layout_constraintEnd_toStartOf="@id/btnEditar"
-        app:layout_constraintTop_toTopOf="@id/valor_servico"
-        app:layout_constraintBottom_toBottomOf="@id/valor_servico" />
-
-    <ImageButton
-        android:id="@+id/btnEditar"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_menu_edit"
-        android:contentDescription="editar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/valor_servico"
-        app:layout_constraintBottom_toBottomOf="@id/valor_servico"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintBottom_toBottomOf="@id/valor_servico" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

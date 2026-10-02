@@ -49,7 +49,7 @@ public class ServicoAdapter extends BaseAdapter {
         ImageButton btnAceitar = rowView.findViewById(R.id.btnAceitar);
 
         Servico servico = servicos.get(position);
-        //imageView.setImageResource(servico.getImagem());//
+        imageView.setImageURI(servico.getFotoUri());
         tituloView.setText(servico.getTitulo());
         descricaoView.setText(servico.getDescricao());
         valorView.setText(String.valueOf(servico.getValor()));

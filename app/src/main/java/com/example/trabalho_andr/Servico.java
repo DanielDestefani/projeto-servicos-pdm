@@ -1,16 +1,21 @@
 package com.example.trabalho_andr;
 
+import android.net.Uri;
+
 public class Servico {
     private String titulo;
     private String descricao;
     private double valor;
     private boolean aceito;
 
-    public Servico(String titulo, String descricao, double valor, boolean aceito) {
+    private Uri fotoUri;
+
+    public Servico(String titulo, String descricao, double valor, boolean aceito, Uri fotoUri) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.valor = valor;
         this.aceito = aceito;
+        this.fotoUri = fotoUri;
     }
 
     public String getTitulo() {
@@ -43,5 +48,13 @@ public class Servico {
 
     public void setAceito(boolean aceito) {
         this.aceito = aceito;
+    }
+
+    public Uri getFotoUri() {
+        return fotoUri;
+    }
+
+    public void setFotoUri(Uri fotoUri) {
+        this.fotoUri = fotoUri;
     }
 }

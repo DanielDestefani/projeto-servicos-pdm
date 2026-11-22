@@ -12,6 +12,7 @@ import android.content.Context;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ServicoAdapter extends BaseAdapter {
     private final Context context;
@@ -53,6 +54,11 @@ public class ServicoAdapter extends BaseAdapter {
         tituloView.setText(servico.getTitulo());
         descricaoView.setText(servico.getDescricao());
         valorView.setText(String.valueOf(servico.getValor()));
+
+        btnAceitar.setOnClickListener(v -> {
+            servico.setAceito(true);
+        Toast.makeText(context, "Serviço aceito: " + servico.getTitulo(), Toast.LENGTH_SHORT).show();
+        });
 
         return rowView;}
 }

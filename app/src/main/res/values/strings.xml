@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Trabalho_André</string>
+    <string name="titulo_app">SERVIÇOS DISPONÍVEIS</string>
+    <string name="novo_servico">Novo Serviço</string>
+    <string name="cd_aceitar">Aceitar</string>
+    <string name="cd_apagar">Apagar</string>
+    <string name="servico_aceito_toast">Serviço aceito: %1$s</string>
+    <string name="servico_ja_aceito">Este serviço já foi aceito</string>
+    <string name="item_removido">Item removido</string>
+    <string name="notif_canal">Serviços</string>
+    <string name="notif_titulo">Serviço aceito</string>
+    <string name="notif_texto">O prestador aceitou: %1$s</string>
+    <string name="hint_titulo">Título</string>
+    <string name="hint_descricao">Descrição</string>
+    <string name="hint_valor">Valor do serviço</string>
+    <string name="salvar">Salvar</string>
+    <string name="escolher_foto">Escolher foto</string>
+    <string name="preencha_campos">Preencha o título e o valor</string>
 </resources>

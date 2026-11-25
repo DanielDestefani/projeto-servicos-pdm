@@ -9,32 +9,32 @@
         android:id="@+id/editTitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Titulo"/>
+        android:hint="@string/hint_titulo"/>
 
     <EditText
         android:id="@+id/editDescricao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Descricao"/>
+        android:hint="@string/hint_descricao"/>
 
     <EditText
         android:inputType="numberDecimal"
         android:id="@+id/editValor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Valor do Serviço"/>
+        android:hint="@string/hint_valor"/>
 
     <Button
         android:id="@+id/btnSalvar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Salvar"/>
+        android:text="@string/salvar"/>
 
     <Button
         android:id="@+id/btnImagem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Escolher foto"/>
+        android:text="@string/escolher_foto"/>
 
     <ImageView
         android:id="@+id/imgPreview"

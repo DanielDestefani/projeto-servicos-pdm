@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class CadastroActivity extends AppCompatActivity {
@@ -43,6 +44,11 @@ public class CadastroActivity extends AppCompatActivity {
             String editTitulo = titulo.getText().toString();
             String editDescricao = descricao.getText().toString();
             String editValor = valor.getText().toString();
+
+            if (editTitulo.trim().isEmpty() || editValor.trim().isEmpty()) {
+                Toast.makeText(this, R.string.preencha_campos, Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             Intent intentRetorno = new Intent();
             intentRetorno.putExtra("titulo_servico", editTitulo);

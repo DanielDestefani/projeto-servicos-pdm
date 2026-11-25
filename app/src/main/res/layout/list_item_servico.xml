@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_background"
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/icone_servico"
@@ -44,7 +46,7 @@
         android:textSize="15sp"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/descricao_servico"
-        app:layout_constraintEnd_toStartOf="@id/btnAceitar"
+        app:layout_constraintEnd_toStartOf="@id/btnApagar"
         app:layout_constraintStart_toStartOf="@id/titulo_servico" />
 
     <ImageButton
@@ -53,9 +55,20 @@
         android:layout_height="48dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@android:drawable/ic_input_add"
-        android:contentDescription="aceitar"
+        android:contentDescription="@string/cd_aceitar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/valor_servico"
         app:layout_constraintBottom_toBottomOf="@id/valor_servico" />
+
+    <ImageButton
+        android:id="@+id/btnApagar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/cd_apagar"
+        android:src="@android:drawable/ic_menu_delete"
+        app:layout_constraintBottom_toBottomOf="@id/valor_servico"
+        app:layout_constraintEnd_toStartOf="@id/btnAceitar"
+        app:layout_constraintTop_toTopOf="@id/valor_servico" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

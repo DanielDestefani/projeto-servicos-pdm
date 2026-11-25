@@ -1,11 +1,16 @@
 package com.example.trabalho_andr;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.widget.Toast;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -22,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView listViewServicos;
 
     private ActivityResultLauncher<Intent> launcher;
+
+    private ConexaoReceiver conexaoReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,4 +72,25 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
-}
+    @Override
+    protected void onStart() {
+        super.onStart();
+        conexaoReceiver = new ConexaoReceiver();
+
+        IntentFilter filtro = new IntentFilter();
+        filtro.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        filtro.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+
+        registerReceiver(conexaoReceiver, filtro);
+
+        if (!ConexaoReceiver.temInternet(this)) {
+            Toast.makeText(this, "Sem conexão com a internet", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(conexaoReceiver);
+    }
+}       // <-- fecha a classe (única chave no fim)

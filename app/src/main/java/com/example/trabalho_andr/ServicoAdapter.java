@@ -57,6 +57,7 @@ public class ServicoAdapter extends BaseAdapter {
         TextView descricaoView = rowView.findViewById(R.id.descricao_servico);
         TextView valorView = rowView.findViewById(R.id.valor_servico);
         ImageButton btnAceitar = rowView.findViewById(R.id.btnAceitar);
+        ImageButton btnApagar = rowView.findViewById(R.id.btnApagar);
 
         Servico servico = servicos.get(position);
         imageView.setImageURI(servico.getFotoUri());
@@ -68,6 +69,12 @@ public class ServicoAdapter extends BaseAdapter {
             servico.setAceito(true);
         Toast.makeText(context, "Serviço aceito: " + servico.getTitulo(), Toast.LENGTH_SHORT).show();
             showNotification(servico.getTitulo());
+        });
+
+        btnApagar.setOnClickListener(v -> {
+            servicos.remove(position);
+            notifyDataSetChanged();
+            Toast.makeText(context, "Item removido", Toast.LENGTH_SHORT).show();
         });
 
         return rowView;}

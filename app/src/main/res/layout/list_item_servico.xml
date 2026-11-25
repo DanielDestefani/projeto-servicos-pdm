@@ -44,7 +44,7 @@
         android:textSize="15sp"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/descricao_servico"
-        app:layout_constraintEnd_toStartOf="@id/btnAceitar"
+        app:layout_constraintEnd_toStartOf="@id/btnApagar"
         app:layout_constraintStart_toStartOf="@id/titulo_servico" />
 
     <ImageButton
@@ -57,5 +57,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/valor_servico"
         app:layout_constraintBottom_toBottomOf="@id/valor_servico" />
+
+    <ImageButton
+        android:id="@+id/btnApagar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Apagar"
+        android:src="@android:drawable/ic_menu_delete"
+        app:layout_constraintBottom_toBottomOf="@id/valor_servico"
+        app:layout_constraintEnd_toStartOf="@id/btnAceitar"
+        app:layout_constraintTop_toTopOf="@id/valor_servico" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,11 @@
 package com.example.trabalho_andr;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +18,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 public class ServicoAdapter extends BaseAdapter {
     private final Context context;
@@ -58,7 +67,35 @@ public class ServicoAdapter extends BaseAdapter {
         btnAceitar.setOnClickListener(v -> {
             servico.setAceito(true);
         Toast.makeText(context, "Serviço aceito: " + servico.getTitulo(), Toast.LENGTH_SHORT).show();
+            showNotification(servico.getTitulo());
         });
 
         return rowView;}
+
+    private void showNotification(String titulo) {
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        String channelId = "canal_servicos";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    channelId,
+                    "Serviços",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setContentTitle("Serviço aceito")
+                .setContentText("O prestador aceitou: " + titulo)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        notificationManager.notify(1, builder.build());
+    }
 }

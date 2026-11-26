@@ -36,6 +36,26 @@
         android:layout_height="wrap_content"
         android:text="@string/escolher_foto"/>
 
+    <Button
+        android:id="@+id/btnLocalizacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Usar minha localização atual" />
+
+    <TextView
+        android:id="@+id/txtCoordenadas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Latitude: --\nLongitude: --"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Local do serviço não definido."
+        android:padding="8dp" />
+
     <ImageView
         android:id="@+id/imgPreview"
         android:layout_width="150dp"

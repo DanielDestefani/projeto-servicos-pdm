@@ -1,5 +1,7 @@
 package com.example.trabalho_andr;
 
+import android.content.ActivityNotFoundException;
+import android.widget.Button;
 import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -94,6 +96,8 @@ public class ServicoAdapter extends BaseAdapter {
             Toast.makeText(context, R.string.item_removido, Toast.LENGTH_SHORT).show();
         });
 
+        configurarMapa(rowView, servico);
+
         return rowView;
     }
 
@@ -150,6 +154,36 @@ public class ServicoAdapter extends BaseAdapter {
             return BitmapFactory.decodeStream(in, null, opcoes);
         } catch (Exception e) {
             return null;
+        }
+    }
+    private void configurarMapa(View rowView, Servico servico) {
+        Button btnMapa = rowView.findViewById(R.id.btnMapa);
+
+        if (!servico.temLocalizacao()) {
+            btnMapa.setVisibility(View.GONE);
+            return;
+        }
+
+        btnMapa.setVisibility(View.VISIBLE);
+        btnMapa.setOnClickListener(v -> abrirMapa(servico));
+    }
+
+    private void abrirMapa(Servico servico) {
+        double lat = servico.getLatitude();
+        double lng = servico.getLongitude();
+
+        Uri uri = Uri.parse(
+                "geo:" + lat + "," + lng
+                        + "?q=" + lat + "," + lng
+                        + "(" + Uri.encode(servico.getTitulo()) + ")"
+        );
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "Nenhum aplicativo de mapas disponível.",
+                    Toast.LENGTH_LONG).show();
         }
     }
 }

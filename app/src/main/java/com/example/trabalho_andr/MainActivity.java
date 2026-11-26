@@ -2,7 +2,9 @@ package com.example.trabalho_andr;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -31,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> launcher;
 
+    private ConexaoReceiver conexaoReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +45,19 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Activity iniciada");
         listViewServicos = findViewById(R.id.listViewServicos);
 
-        ArrayList<Servico> listaServicos = new ArrayList<>();
+        String nomeUsuario = getIntent().getStringExtra("nome_usuario");
+        if (nomeUsuario == null) {
+            nomeUsuario = getString(R.string.visitante);
+        }
+        boolean ehPrestador = "prestador".equals(getIntent().getStringExtra("perfil"));
 
-        ServicoAdapter adapter = new ServicoAdapter(this, listaServicos);
+        TextView textUsuario = findViewById(R.id.textUsuario);
+        int perfilTexto = ehPrestador ? R.string.perfil_prestador : R.string.perfil_cliente;
+        textUsuario.setText(getString(R.string.ola_usuario, nomeUsuario, getString(perfilTexto)));
+
+        ArrayList<Servico> listaServicos = RepositorioServicos.servicos;
+
+        ServicoAdapter adapter = new ServicoAdapter(this, listaServicos, ehPrestador);
         listViewServicos.setAdapter(adapter);
 
         launcher = registerForActivityResult(
@@ -56,13 +72,25 @@ public class MainActivity extends AppCompatActivity {
 
                         double valor = valorStr != null ? Double.parseDouble(valorStr) : 0;
 
-                        listaServicos.add(new Servico(titulo, descricao, valor, false, fotoUri));
+                        Servico novoServico = new Servico(titulo, descricao, valor, false, fotoUri);
+
+                        if (data.getBooleanExtra("tem_localizacao", false)) {
+                            novoServico.definirLocalizacao(
+                                    data.getDoubleExtra("latitude_servico", 0),
+                                    data.getDoubleExtra("longitude_servico", 0));
+                        }
+
+                        listaServicos.add(novoServico);
+
                         adapter.notifyDataSetChanged();
                     }
                 }
         );
 
         Button btnNovoServico = findViewById(R.id.btnNovoServico);
+        if (ehPrestador) {
+            btnNovoServico.setVisibility(View.GONE);
+        }
         btnNovoServico.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CadastroActivity.class);
             launcher.launch(intent);
@@ -87,6 +115,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
+
+        conexaoReceiver = new ConexaoReceiver();
+
+        IntentFilter filtro = new IntentFilter();
+        filtro.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        filtro.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+
+        registerReceiver(conexaoReceiver, filtro);
+
+        if (!ConexaoReceiver.temInternet(this)) {
+            Toast.makeText(this, "Sem conexão com a internet", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -105,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop");
+        unregisterReceiver(conexaoReceiver);
     }
 
     @Override

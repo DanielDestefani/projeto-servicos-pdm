@@ -57,4 +57,26 @@ public class Servico {
     public void setFotoUri(Uri fotoUri) {
         this.fotoUri = fotoUri;
     }
+
+    private double latitude;
+    private double longitude;
+    private boolean temLocalizacao;
+
+    public void definirLocalizacao(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.temLocalizacao = true;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public boolean temLocalizacao() {
+        return temLocalizacao;
+    }
 }

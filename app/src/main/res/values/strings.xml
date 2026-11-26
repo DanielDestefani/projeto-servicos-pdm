@@ -16,4 +16,13 @@
     <string name="salvar">Salvar</string>
     <string name="escolher_foto">Escolher foto</string>
     <string name="preencha_campos">Preencha o título e o valor</string>
+    <string name="login_titulo">Entrar</string>
+    <string name="hint_nome">Seu nome</string>
+    <string name="entrar_cliente">Entrar como cliente</string>
+    <string name="entrar_prestador">Entrar como prestador</string>
+    <string name="preencha_nome">Digite seu nome</string>
+    <string name="ola_usuario">Olá, %1$s (%2$s)</string>
+    <string name="perfil_cliente">Cliente</string>
+    <string name="perfil_prestador">Prestador</string>
+    <string name="visitante">Visitante</string>
 </resources>

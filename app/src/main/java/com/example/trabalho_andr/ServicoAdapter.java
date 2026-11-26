@@ -1,5 +1,7 @@
 package com.example.trabalho_andr;
 
+import android.content.ActivityNotFoundException;
+import android.widget.Button;
 import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -30,10 +32,12 @@ import java.util.ArrayList;
 public class ServicoAdapter extends BaseAdapter {
     private final Context context;
     private final ArrayList<Servico> servicos;
+    private final boolean prestador;
 
-    public ServicoAdapter(Context context, ArrayList<Servico> servicos) {
+    public ServicoAdapter(Context context, ArrayList<Servico> servicos, boolean prestador) {
         this.context = context;
         this.servicos = servicos;
+        this.prestador = prestador;
     }
 
     @Override
@@ -63,8 +67,18 @@ public class ServicoAdapter extends BaseAdapter {
         ImageButton btnAceitar = rowView.findViewById(R.id.btnAceitar);
         ImageButton btnApagar = rowView.findViewById(R.id.btnApagar);
 
+        if (prestador) {
+            btnApagar.setVisibility(View.GONE);
+        } else {
+            btnAceitar.setVisibility(View.GONE);
+        }
+
         Servico servico = servicos.get(position);
-        imageView.setImageURI(servico.getFotoUri());
+        try {
+            imageView.setImageURI(servico.getFotoUri());
+        } catch (SecurityException e) {
+            imageView.setImageResource(R.mipmap.ic_launcher);
+        }
         tituloView.setText(servico.getTitulo());
         descricaoView.setText(servico.getDescricao());
         valorView.setText(String.valueOf(servico.getValor()));
@@ -93,6 +107,8 @@ public class ServicoAdapter extends BaseAdapter {
             notifyDataSetChanged();
             Toast.makeText(context, R.string.item_removido, Toast.LENGTH_SHORT).show();
         });
+
+        configurarMapa(rowView, servico);
 
         return rowView;
     }
@@ -150,6 +166,36 @@ public class ServicoAdapter extends BaseAdapter {
             return BitmapFactory.decodeStream(in, null, opcoes);
         } catch (Exception e) {
             return null;
+        }
+    }
+    private void configurarMapa(View rowView, Servico servico) {
+        Button btnMapa = rowView.findViewById(R.id.btnMapa);
+
+        if (!prestador || !servico.temLocalizacao()) {
+            btnMapa.setVisibility(View.GONE);
+            return;
+        }
+
+        btnMapa.setVisibility(View.VISIBLE);
+        btnMapa.setOnClickListener(v -> abrirMapa(servico));
+    }
+
+    private void abrirMapa(Servico servico) {
+        double lat = servico.getLatitude();
+        double lng = servico.getLongitude();
+
+        Uri uri = Uri.parse(
+                "geo:" + lat + "," + lng
+                        + "?q=" + lat + "," + lng
+                        + "(" + Uri.encode(servico.getTitulo()) + ")"
+        );
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "Nenhum aplicativo de mapas disponível.",
+                    Toast.LENGTH_LONG).show();
         }
     }
 }

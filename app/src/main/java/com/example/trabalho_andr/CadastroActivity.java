@@ -155,7 +155,7 @@ public class CadastroActivity extends AppCompatActivity {
                 txtStatus.setText(String.format(
                         Locale.getDefault(), "Precisão estimada: %.1f metros",
                         localizacao.getAccuracy()));
-            }).addOnFailureListener(thcleis, erro -> {
+            }).addOnFailureListener(this, erro -> {
                 btnLocalizacao.setEnabled(true);
                 txtStatus.setText("Erro ao obter localização: " + erro.getMessage());
             });

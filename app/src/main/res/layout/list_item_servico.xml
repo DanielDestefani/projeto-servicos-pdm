@@ -71,4 +71,13 @@
         app:layout_constraintEnd_toStartOf="@id/btnAceitar"
         app:layout_constraintTop_toTopOf="@id/valor_servico" />
 
+    <Button
+        android:id="@+id/btnMapa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver no mapa"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/titulo_servico"
+        app:layout_constraintTop_toBottomOf="@id/valor_servico" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

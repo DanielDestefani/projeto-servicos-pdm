@@ -74,7 +74,11 @@ public class ServicoAdapter extends BaseAdapter {
         }
 
         Servico servico = servicos.get(position);
-        imageView.setImageURI(servico.getFotoUri());
+        try {
+            imageView.setImageURI(servico.getFotoUri());
+        } catch (SecurityException e) {
+            imageView.setImageResource(R.mipmap.ic_launcher);
+        }
         tituloView.setText(servico.getTitulo());
         descricaoView.setText(servico.getDescricao());
         valorView.setText(String.valueOf(servico.getValor()));
@@ -167,7 +171,7 @@ public class ServicoAdapter extends BaseAdapter {
     private void configurarMapa(View rowView, Servico servico) {
         Button btnMapa = rowView.findViewById(R.id.btnMapa);
 
-        if (!servico.temLocalizacao()) {
+        if (!prestador || !servico.temLocalizacao()) {
             btnMapa.setVisibility(View.GONE);
             return;
         }

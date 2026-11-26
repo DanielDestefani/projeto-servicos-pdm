@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -39,9 +40,19 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Activity iniciada");
         listViewServicos = findViewById(R.id.listViewServicos);
 
-        ArrayList<Servico> listaServicos = new ArrayList<>();
+        String nomeUsuario = getIntent().getStringExtra("nome_usuario");
+        if (nomeUsuario == null) {
+            nomeUsuario = getString(R.string.visitante);
+        }
+        boolean ehPrestador = "prestador".equals(getIntent().getStringExtra("perfil"));
 
-        ServicoAdapter adapter = new ServicoAdapter(this, listaServicos);
+        TextView textUsuario = findViewById(R.id.textUsuario);
+        int perfilTexto = ehPrestador ? R.string.perfil_prestador : R.string.perfil_cliente;
+        textUsuario.setText(getString(R.string.ola_usuario, nomeUsuario, getString(perfilTexto)));
+
+        ArrayList<Servico> listaServicos = RepositorioServicos.servicos;
+
+        ServicoAdapter adapter = new ServicoAdapter(this, listaServicos, ehPrestador);
         listViewServicos.setAdapter(adapter);
 
         launcher = registerForActivityResult(
@@ -63,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         );
 
         Button btnNovoServico = findViewById(R.id.btnNovoServico);
+        if (ehPrestador) {
+            btnNovoServico.setVisibility(View.GONE);
+        }
         btnNovoServico.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CadastroActivity.class);
             launcher.launch(intent);

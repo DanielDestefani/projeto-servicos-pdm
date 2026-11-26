@@ -61,7 +61,16 @@ public class MainActivity extends AppCompatActivity {
 
                         double valor = valorStr != null ? Double.parseDouble(valorStr) : 0;
 
-                        listaServicos.add(new Servico(titulo, descricao, valor, false, fotoUri));
+                        Servico novoServico = new Servico(titulo, descricao, valor, false, fotoUri);
+
+                        if (data.getBooleanExtra("tem_localizacao", false)) {
+                            novoServico.definirLocalizacao(
+                                    data.getDoubleExtra("latitude_servico", 0),
+                                    data.getDoubleExtra("longitude_servico", 0));
+                        }
+
+                        listaServicos.add(novoServico);
+
                         adapter.notifyDataSetChanged();
                     }
                 }

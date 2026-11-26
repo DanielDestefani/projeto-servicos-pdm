@@ -23,6 +23,10 @@ import com.google.android.gms.tasks.CancellationTokenSource;
 
 import java.util.Locale;
 import java.util.Map;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -31,7 +35,11 @@ public class CadastroActivity extends AppCompatActivity {
     ActivityResultLauncher<String> launcher = registerForActivityResult(
             new ActivityResultContracts.GetContent(),
             uri -> {
-                imagemSelecionada = uri;
+                if (uri == null) {
+                    return;
+                }
+                Uri copia = copiarParaArmazenamentoInterno(uri);
+                imagemSelecionada = copia != null ? copia : uri;
                 imagem.setImageURI(imagemSelecionada);
             }
     );
@@ -162,6 +170,25 @@ public class CadastroActivity extends AppCompatActivity {
         } catch (SecurityException e) {
             btnLocalizacao.setEnabled(true);
             txtStatus.setText("Sem autorização para acessar a localização.");
+        }
+    }
+
+    private Uri copiarParaArmazenamentoInterno(Uri origem) {
+        try (InputStream entrada = getContentResolver().openInputStream(origem)) {
+            if (entrada == null) {
+                return null;
+            }
+            File destino = new File(getFilesDir(), "foto_" + System.currentTimeMillis() + ".jpg");
+            try (OutputStream saida = new FileOutputStream(destino)) {
+                byte[] buffer = new byte[8192];
+                int lidos;
+                while ((lidos = entrada.read(buffer)) != -1) {
+                    saida.write(buffer, 0, lidos);
+                }
+            }
+            return Uri.fromFile(destino);
+        } catch (Exception e) {
+            return null;
         }
     }
 }

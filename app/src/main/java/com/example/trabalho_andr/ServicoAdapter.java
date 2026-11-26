@@ -32,10 +32,12 @@ import java.util.ArrayList;
 public class ServicoAdapter extends BaseAdapter {
     private final Context context;
     private final ArrayList<Servico> servicos;
+    private final boolean prestador;
 
-    public ServicoAdapter(Context context, ArrayList<Servico> servicos) {
+    public ServicoAdapter(Context context, ArrayList<Servico> servicos, boolean prestador) {
         this.context = context;
         this.servicos = servicos;
+        this.prestador = prestador;
     }
 
     @Override
@@ -64,6 +66,12 @@ public class ServicoAdapter extends BaseAdapter {
         TextView valorView = rowView.findViewById(R.id.valor_servico);
         ImageButton btnAceitar = rowView.findViewById(R.id.btnAceitar);
         ImageButton btnApagar = rowView.findViewById(R.id.btnApagar);
+
+        if (prestador) {
+            btnApagar.setVisibility(View.GONE);
+        } else {
+            btnAceitar.setVisibility(View.GONE);
+        }
 
         Servico servico = servicos.get(position);
         imageView.setImageURI(servico.getFotoUri());
